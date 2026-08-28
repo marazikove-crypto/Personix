@@ -1,184 +1,969 @@
-<!doctype html>
-<html lang="ru">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PeopleFinder — Найди любого человека</title>
-<meta name="description" content="PeopleFinder — найди любого известного человека: актёра, учёного, блогера, спортсмена, музыканта и других людей. Поиск на разных языках.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PeopleFinder — Find anyone</title>
+
+<meta name="description"
+content="PeopleFinder — find famous people, actors, scientists, bloggers, athletes and other notable people in different languages.">
+
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="PeopleFinder — Найди любого человека">
-<meta property="og:description" content="Поиск известных людей на разных языках с биографией и фотографиями.">
-<meta property="og:type" content="website">
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#08090d;color:#f5f7fb}
-header{padding:42px 20px 30px;text-align:center;background:radial-gradient(circle at 50% 0,#24335c 0,#10131e 45%,#08090d 75%)}
-h1{font-size:clamp(34px,7vw,64px);margin:10px 0 8px}.sub{color:#aeb7ca;font-size:17px}
-.search{max-width:820px;margin:26px auto 0;display:flex;gap:10px}.search input{flex:1;padding:17px 20px;border-radius:15px;border:1px solid #303746;background:#11141d;color:white;font-size:17px;outline:none}.search button{padding:0 25px;border:0;border-radius:15px;background:#6d7cff;color:white;font-weight:700;font-size:16px;cursor:pointer}
-main{max-width:1100px;margin:35px auto;padding:0 18px}.status{text-align:center;color:#9da7ba;min-height:28px}.card{display:none;background:#11141b;border:1px solid #292f3d;border-radius:24px;padding:22px;box-shadow:0 20px 60px #0008}.top{display:grid;grid-template-columns:250px 1fr;gap:26px}.mainimg{width:100%;height:300px;object-fit:cover;border-radius:18px;background:#1b1f2a}.name{font-size:38px;margin:5px 0 10px}.desc{color:#9fa9bb;margin-bottom:18px}.bio{font-size:17px;line-height:1.7;color:#e0e4ec}.photos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}.photos img{width:100%;height:150px;object-fit:cover;border-radius:14px;background:#1b1f2a}.source{margin-top:18px;font-size:13px;color:#8993a6}.source a{color:#9eabff}.error{color:#ff9c9c}
-.hint{max-width:820px;margin:13px auto 0;color:#7f8ba1;font-size:13px}
-@media(max-width:700px){.search{flex-direction:column}.search button{height:54px}.top{grid-template-columns:1fr}.mainimg{height:330px}.photos{grid-template-columns:repeat(2,1fr)}.name{font-size:30px}}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #08090d;
+    color: #f5f7fb;
+}
+
+header {
+    padding: 55px 20px 35px;
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 0%, #283b70 0%, #111522 45%, #08090d 78%);
+}
+
+h1 {
+    margin: 0 0 10px;
+    font-size: clamp(40px, 8vw, 70px);
+    letter-spacing: -2px;
+}
+
+.sub {
+    color: #b6bfd2;
+    font-size: 19px;
+}
+
+.search {
+    max-width: 850px;
+    margin: 30px auto 0;
+    display: flex;
+    gap: 10px;
+}
+
+.search input {
+    flex: 1;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid #303746;
+    background: #11141d;
+    color: white;
+    font-size: 17px;
+    outline: none;
+}
+
+.search input:focus {
+    border-color: #7180ff;
+}
+
+.search button {
+    padding: 0 28px;
+    border: none;
+    border-radius: 16px;
+    background: #6d7cff;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search button:hover {
+    opacity: 0.9;
+}
+
+.hint {
+    max-width: 850px;
+    margin: 14px auto 0;
+    color: #7f8ba1;
+    font-size: 13px;
+}
+
+main {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 18px;
+}
+
+.status {
+    text-align: center;
+    color: #9da7ba;
+    min-height: 28px;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: #ff9c9c;
+}
+
+.card {
+    display: none;
+    background: #11141b;
+    border: 1px solid #292f3d;
+    border-radius: 25px;
+    padding: 24px;
+    box-shadow: 0 20px 60px #0008;
+}
+
+.top {
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    gap: 28px;
+}
+
+.mainimg {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 18px;
+    background: #1b1f2a;
+}
+
+.name {
+    font-size: 40px;
+    margin: 5px 0 10px;
+}
+
+.desc {
+    color: #9fa9bb;
+    margin-bottom: 18px;
+    font-size: 17px;
+}
+
+.bio {
+    font-size: 17px;
+    line-height: 1.75;
+    color: #e0e4ec;
+}
+
+.photos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.photos img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #1b1f2a;
+}
+
+.source {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #8993a6;
+}
+
+.source a {
+    color: #9eabff;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #687286;
+    font-size: 12px;
+}
+
+@media (max-width: 700px) {
+
+    header {
+        padding-top: 40px;
+    }
+
+    .search {
+        flex-direction: column;
+    }
+
+    .search button {
+        height: 55px;
+    }
+
+    .top {
+        grid-template-columns: 1fr;
+    }
+
+    .mainimg {
+        height: 330px;
+    }
+
+    .photos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .name {
+        font-size: 30px;
+    }
+}
 </style>
 </head>
+
 <body>
+
 <header>
+
 <h1>PeopleFinder</h1>
-<div class="sub">Найди любого человека</div>
+
+<div id="subtitle" class="sub"></div>
+
 <div class="search">
-<input id="q" aria-label="Имя человека" placeholder="Найди любого человека — например: Илон Маск • 山田涼介 • Cristiano Ronaldo" autocomplete="off">
-<button id="go">Найти</button>
+
+<input
+id="q"
+type="text"
+autocomplete="off"
+aria-label="Person name"
+>
+
+<button id="go"></button>
+
 </div>
-<div class="hint">Пиши имя на русском, английском, японском, китайском, корейском и других языках.</div>
+
+<div id="hint" class="hint"></div>
+
 </header>
+
 <main>
-<div id="status" class="status">Напиши имя — я найду информацию о человеке</div>
+
+<div id="status" class="status"></div>
+
 <section id="card" class="card">
+
 <div class="top">
-<img id="mainimg" class="mainimg" alt="">
+
+<img
+id="mainimg"
+class="mainimg"
+alt=""
+>
+
 <div>
+
 <h2 id="name" class="name"></h2>
+
 <div id="desc" class="desc"></div>
+
 <div id="bio" class="bio"></div>
+
 </div>
+
 </div>
+
 <div id="photos" class="photos"></div>
-<div class="source">Источник данных: Wikimedia / Wikipedia. <span id="sourceLink"></span></div>
+
+<div class="source">
+<span id="sourceText"></span>
+<span id="sourceLink"></span>
+</div>
+
 </section>
+
 </main>
-<footer style="text-align:center;padding:10px 18px 35px;color:#687286;font-size:12px">PeopleFinder · данные предоставляются Wikimedia / Wikipedia</footer>
+
+<footer>
+PeopleFinder · Wikimedia / Wikipedia
+</footer>
+
+
 <script>
-const q=document.getElementById('q'),go=document.getElementById('go'),status=document.getElementById('status'),card=document.getElementById('card');
-const mainimg=document.getElementById('mainimg'),nameEl=document.getElementById('name'),desc=document.getElementById('desc'),bio=document.getElementById('bio'),photos=document.getElementById('photos'),sourceLink=document.getElementById('sourceLink');
 
-const WIKIS=['ru','en','ja','ko','zh','es','de','fr','pt','it','ar','tr'];
+/* =========================
+   INTERFACE TRANSLATIONS
+========================= */
 
-function norm(s){
-  return (s||'').toLowerCase().normalize('NFKC')
-    .replace(/[’'`"«».,:;!?()[\]{}]/g,' ')
-    .replace(/\s+/g,' ').trim();
+const translations = {
+
+ru: {
+    subtitle: "Найди любого человека",
+    placeholder: "Найди любого человека — например: Илон Маск • 山田涼介 • Cristiano Ronaldo",
+    hint: "Пиши имя на русском, английском, японском, китайском, корейском и других языках.",
+    button: "Найти",
+    start: "Напиши имя — я найду информацию о человеке",
+    searching: "Проверяю имя и варианты написания…",
+    found: "Найдено",
+    error: "Не удалось точно определить человека. Попробуй добавить фамилию или написать имя на другом языке.",
+    article: "Открыть статью",
+    source: "Источник информации: Wikimedia / Wikipedia"
+},
+
+en: {
+    subtitle: "Find anyone",
+    placeholder: "Find anyone — for example: Elon Musk • 山田涼介 • Cristiano Ronaldo",
+    hint: "Write a name in Russian, English, Japanese, Chinese, Korean and other languages.",
+    button: "Search",
+    start: "Enter a name — I will find information about the person",
+    searching: "Checking the name and spelling variants…",
+    found: "Found",
+    error: "Could not identify the person exactly. Try adding a surname or using another language.",
+    article: "Open article",
+    source: "Information source: Wikimedia / Wikipedia"
+},
+
+uz: {
+    subtitle: "Istalgan odamni toping",
+    placeholder: "Istalgan odamni toping — masalan: Ilon Mask • 山田涼介 • Cristiano Ronaldo",
+    hint: "Ismni rus, ingliz, yapon, xitoy, koreys va boshqa tillarda yozing.",
+    button: "Qidirish",
+    start: "Ismni yozing — men bu odam haqida ma'lumot topaman",
+    searching: "Ism va yozilish variantlari tekshirilmoqda…",
+    found: "Topildi",
+    error: "Odamni aniq aniqlab bo'lmadi. Familiyasini qo'shib ko'ring yoki boshqa tilda yozing.",
+    article: "Maqolani ochish",
+    source: "Ma'lumot manbasi: Wikimedia / Wikipedia"
+},
+
+ja: {
+    subtitle: "誰でも検索",
+    placeholder: "人物を検索 — 例：イーロン・マスク • 山田涼介 • Cristiano Ronaldo",
+    hint: "ロシア語、英語、日本語、中国語、韓国語などで名前を入力できます。",
+    button: "検索",
+    start: "名前を入力してください",
+    searching: "名前と表記の候補を確認しています…",
+    found: "見つかりました",
+    error: "人物を正確に特定できませんでした。姓を追加するか、別の言語で試してください。",
+    article: "記事を開く",
+    source: "情報源: Wikimedia / Wikipedia"
+},
+
+ko: {
+    subtitle: "누구나 검색하세요",
+    placeholder: "사람을 검색하세요 — 예: 일론 머스크 • 山田涼介 • Cristiano Ronaldo",
+    hint: "러시아어, 영어, 일본어, 중국어, 한국어 등으로 이름을 입력할 수 있습니다.",
+    button: "검색",
+    start: "이름을 입력하세요",
+    searching: "이름과 표기 변형을 확인하는 중…",
+    found: "찾았습니다",
+    error: "인물을 정확히 확인하지 못했습니다. 성을 추가하거나 다른 언어로 입력해 보세요.",
+    article: "문서 열기",
+    source: "정보 출처: Wikimedia / Wikipedia"
+},
+
+zh: {
+    subtitle: "寻找任何人物",
+    placeholder: "寻找人物 — 例如：埃隆·马斯克 • 山田涼介 • Cristiano Ronaldo",
+    hint: "可以使用俄语、英语、日语、中文、韩语等语言输入姓名。",
+    button: "搜索",
+    start: "输入姓名，我会查找人物信息",
+    searching: "正在检查姓名和不同写法…",
+    found: "已找到",
+    error: "无法准确确定人物。请添加姓氏或尝试其他语言。",
+    article: "打开文章",
+    source: "信息来源: Wikimedia / Wikipedia"
+},
+
+es: {
+    subtitle: "Encuentra a cualquier persona",
+    placeholder: "Busca a cualquier persona — por ejemplo: Elon Musk • 山田涼介 • Cristiano Ronaldo",
+    hint: "Escribe el nombre en ruso, inglés, japonés, chino, coreano u otros idiomas.",
+    button: "Buscar",
+    start: "Escribe un nombre — buscaré información sobre esa persona",
+    searching: "Comprobando el nombre y sus variantes…",
+    found: "Encontrado",
+    error: "No se pudo identificar a la persona con precisión.",
+    article: "Abrir artículo",
+    source: "Fuente: Wikimedia / Wikipedia"
+},
+
+de: {
+    subtitle: "Finde jede Person",
+    placeholder: "Person suchen — zum Beispiel: Elon Musk • 山田涼介 • Cristiano Ronaldo",
+    hint: "Namen auf Russisch, Englisch, Japanisch, Chinesisch, Koreanisch und anderen Sprachen eingeben.",
+    button: "Suchen",
+    start: "Namen eingeben — ich finde Informationen über die Person",
+    searching: "Name und Schreibvarianten werden geprüft…",
+    found: "Gefunden",
+    error: "Die Person konnte nicht eindeutig bestimmt werden.",
+    article: "Artikel öffnen",
+    source: "Quelle: Wikimedia / Wikipedia"
+},
+
+fr: {
+    subtitle: "Trouvez n'importe quelle personne",
+    placeholder: "Rechercher une personne — par exemple : Elon Musk • 山田涼介 • Cristiano Ronaldo",
+    hint: "Écrivez le nom en russe, anglais, japonais, chinois, coréen ou autre langue.",
+    button: "Rechercher",
+    start: "Entrez un nom — je trouverai des informations sur cette personne",
+    searching: "Vérification du nom et des variantes…",
+    found: "Trouvé",
+    error: "Impossible d'identifier précisément la personne.",
+    article: "Ouvrir l'article",
+    source: "Source : Wikimedia / Wikipedia"
 }
 
-async function wikiSearch(lang,query){
-  const url=`https://${lang}.wikipedia.org/w/rest.php/v1/search/page?q=${encodeURIComponent(query)}&limit=8`;
-  try{
-    const r=await fetch(url); if(!r.ok)return [];
-    const d=await r.json(); return (d.pages||[]).map(p=>({...p,lang}));
-  }catch{return []}
+};
+
+
+/* =========================
+   PHONE / BROWSER LANGUAGE
+========================= */
+
+const browserLanguage =
+    (navigator.language || "en")
+    .toLowerCase()
+    .split("-")[0];
+
+const ui =
+    translations[browserLanguage] ||
+    translations.en;
+
+document.documentElement.lang =
+    browserLanguage;
+
+document.getElementById("subtitle").textContent =
+    ui.subtitle;
+
+document.getElementById("hint").textContent =
+    ui.hint;
+
+document.getElementById("go").textContent =
+    ui.button;
+
+document.getElementById("q").placeholder =
+    ui.placeholder;
+
+document.getElementById("status").textContent =
+    ui.start;
+
+document.getElementById("sourceText").textContent =
+    ui.source;
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const q =
+    document.getElementById("q");
+
+const go =
+    document.getElementById("go");
+
+const status =
+    document.getElementById("status");
+
+const card =
+    document.getElementById("card");
+
+const mainimg =
+    document.getElementById("mainimg");
+
+const nameEl =
+    document.getElementById("name");
+
+const desc =
+    document.getElementById("desc");
+
+const bio =
+    document.getElementById("bio");
+
+const photos =
+    document.getElementById("photos");
+
+const sourceLink =
+    document.getElementById("sourceLink");
+
+
+/* =========================
+   WIKIPEDIA LANGUAGES
+========================= */
+
+const WIKIS = [
+    "ru",
+    "en",
+    "ja",
+    "ko",
+    "zh",
+    "es",
+    "de",
+    "fr",
+    "pt",
+    "it",
+    "ar",
+    "tr"
+];
+
+
+/* =========================
+   NORMALIZE NAME
+========================= */
+
+function normalize(text) {
+
+    return (text || "")
+        .toLowerCase()
+        .normalize("NFKC")
+        .replace(/[’'`"«».,:;!?()[\]{}]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
 }
 
-async function wikidataSearch(query, language){
-  const url=`https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(query)}&language=${language}&uselang=${language}&limit=8&format=json&origin=*`;
-  try{
-    const r=await fetch(url); if(!r.ok)return [];
-    const d=await r.json(); return (d.search||[]).map(x=>({...x,searchLang:language}));
-  }catch{return []}
+
+/* =========================
+   WIKIDATA SEARCH
+========================= */
+
+async function wikidataSearch(query, language) {
+
+    try {
+
+        const url =
+            "https://www.wikidata.org/w/api.php" +
+            "?action=wbsearchentities" +
+            "&search=" +
+            encodeURIComponent(query) +
+            "&language=" +
+            language +
+            "&uselang=" +
+            language +
+            "&limit=8" +
+            "&format=json" +
+            "&origin=*";
+
+        const response =
+            await fetch(url);
+
+        if (!response.ok)
+            return [];
+
+        const data =
+            await response.json();
+
+        return data.search || [];
+
+    } catch {
+
+        return [];
+
+    }
+
 }
 
-function qScore(x,query){
-  const qn=norm(query), label=norm(x.label), desc=norm(x.description);
-  let s=0;
-  if(label===qn)s+=160;
-  if(label.startsWith(qn))s+=60;
-  if(label.includes(qn))s+=35;
-  if((x.aliases||[]).some(a=>norm(a)===qn))s+=150;
-  if((x.aliases||[]).some(a=>norm(a).includes(qn)))s+=70;
-  if(x.sitelinks)s+=Math.min(20,Object.keys(x.sitelinks).length);
-  if(desc)s+=4;
-  return s;
+
+/* =========================
+   GET WIKIDATA ENTITY
+========================= */
+
+async function getEntity(id) {
+
+    const url =
+        "https://www.wikidata.org/w/api.php" +
+        "?action=wbgetentities" +
+        "&ids=" +
+        encodeURIComponent(id) +
+        "&props=labels|aliases|descriptions|sitelinks" +
+        "&languages=ru|en|ja|ko|zh|es|de|fr|pt|it|ar|tr" +
+        "&format=json" +
+        "&origin=*";
+
+    const response =
+        await fetch(url);
+
+    if (!response.ok)
+        throw new Error("Entity error");
+
+    const data =
+        await response.json();
+
+    return data.entities?.[id];
+
 }
 
-async function getEntity(id){
-  const url=`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${encodeURIComponent(id)}&props=labels|aliases|descriptions|sitelinks|claims&languages=ru|en|ja|ko|zh|es|de|fr|pt|it|ar|tr&format=json&origin=*`;
-  const r=await fetch(url); if(!r.ok)throw new Error('entity');
-  const d=await r.json(); return d.entities?.[id];
+
+/* =========================
+   WIKIPEDIA SUMMARY
+========================= */
+
+async function getSummary(language, title) {
+
+    const url =
+        `https://${language}.wikipedia.org/api/rest_v1/page/summary/` +
+        encodeURIComponent(title.replaceAll(" ", "_"));
+
+    const response =
+        await fetch(url);
+
+    if (!response.ok)
+        throw new Error("Summary error");
+
+    return await response.json();
+
 }
 
-async function getSummary(lang,title){
-  const url=`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replaceAll(' ','_'))}`;
-  const r=await fetch(url); if(!r.ok)throw new Error('summary');
-  return await r.json();
+
+/* =========================
+   SCORE SEARCH RESULT
+========================= */
+
+function scoreResult(result, query) {
+
+    const q =
+        normalize(query);
+
+    const label =
+        normalize(result.label);
+
+    let score = 0;
+
+    if (label === q)
+        score += 160;
+
+    if (label.startsWith(q))
+        score += 60;
+
+    if (label.includes(q))
+        score += 40;
+
+    if (
+        result.aliases &&
+        result.aliases.some(
+            alias => normalize(alias) === q
+        )
+    )
+        score += 150;
+
+    return score;
+
 }
 
-async function findBest(query){
-  // 1) First use Wikidata: it understands aliases, transliterations and names
-  // in different languages much better than relying on one Wikipedia search ranking.
-  const wd=(await Promise.all(WIKIS.map(l=>wikidataSearch(query,l)))).flat();
-  wd.sort((a,b)=>qScore(b,query)-qScore(a,query));
 
-  for(const hit of wd.slice(0,12)){
-    try{
-      const e=await getEntity(hit.id);
-      if(!e)continue;
-      const links=e.sitelinks||{};
-      // Prefer an English/Russian article, then another available language.
-      for(const lang of ['en','ru','ja','ko','zh','es','de','fr','pt','it','tr','ar']){
-        const key=lang+'wiki';
-        if(links[key]?.title){
-          try{
-            const d=await getSummary(lang,links[key].title);
-            if(d.type!=='disambiguation' && (d.extract||d.thumbnail))
-              return {data:d, entity:e, lang};
-          }catch{}
+/* =========================
+   FIND PERSON
+========================= */
+
+async function findPerson(query) {
+
+    let results = [];
+
+    const searches =
+        await Promise.all(
+            WIKIS.map(
+                language =>
+                    wikidataSearch(query, language)
+            )
+        );
+
+    searches.forEach(
+        list => results.push(...list)
+    );
+
+    results.sort(
+        (a, b) =>
+            scoreResult(b, query) -
+            scoreResult(a, query)
+    );
+
+
+    /*
+       Prefer the language used by
+       the visitor's phone.
+    */
+
+    const preferredLanguages = [
+
+        browserLanguage,
+        "en",
+        "ru",
+        "ja",
+        "ko",
+        "zh",
+        "es",
+        "de",
+        "fr",
+        "pt",
+        "it",
+        "tr",
+        "ar"
+
+    ];
+
+
+    for (
+        const result of results.slice(0, 15)
+    ) {
+
+        try {
+
+            const entity =
+                await getEntity(result.id);
+
+            if (!entity)
+                continue;
+
+            const links =
+                entity.sitelinks || {};
+
+
+            for (
+                const language of preferredLanguages
+            ) {
+
+                const key =
+                    language + "wiki";
+
+                if (
+                    !links[key] ||
+                    !links[key].title
+                )
+                    continue;
+
+
+                try {
+
+                    const data =
+                        await getSummary(
+                            language,
+                            links[key].title
+                        );
+
+
+                    if (
+                        data.type !== "disambiguation" &&
+                        (
+                            data.extract ||
+                            data.thumbnail
+                        )
+                    ) {
+
+                        return data;
+
+                    }
+
+                } catch {}
+
+            }
+
+        } catch {}
+
+    }
+
+
+    throw new Error("Person not found");
+
+}
+
+
+/* =========================
+   SEARCH PERSON
+========================= */
+
+async function searchPerson() {
+
+    const query =
+        q.value.trim();
+
+    if (!query)
+        return;
+
+
+    status.className =
+        "status";
+
+    status.textContent =
+        ui.searching;
+
+    card.style.display =
+        "none";
+
+
+    try {
+
+        const data =
+            await findPerson(query);
+
+
+        /*
+           MAIN INFORMATION
+        */
+
+        nameEl.textContent =
+            data.title || "";
+
+        desc.textContent =
+            data.description || "";
+
+        bio.textContent =
+            data.extract || "";
+
+
+        /*
+           MAIN PHOTO
+        */
+
+        const mainPhoto =
+            data.thumbnail?.source || "";
+
+
+        if (mainPhoto) {
+
+            mainimg.src =
+                mainPhoto;
+
+            mainimg.style.display =
+                "block";
+
+        } else {
+
+            mainimg.style.display =
+                "none";
+
         }
-      }
-    }catch{}
-  }
 
-  // 2) Fallback: search Wikipedia directly in several languages.
-  const all=(await Promise.all(WIKIS.map(l=>wikiSearch(l,query)))).flat();
-  all.sort((a,b)=>{
-    const aq=norm(query), at=norm(a.title), bt=norm(b.title);
-    return ((bt===aq?100:bt.includes(aq)?30:0)+(b.thumbnail?5:0))
-         -((at===aq?100:at.includes(aq)?30:0)+(a.thumbnail?5:0));
-  });
-  for(const p of all.slice(0,12)){
-    try{
-      const d=await getSummary(p.lang,p.title);
-      if(d.type!=='disambiguation' && (d.extract||d.thumbnail))
-        return {data:d,entity:null,lang:p.lang};
-    }catch{}
-  }
-  throw new Error('notfound');
+
+        /*
+           WIKIPEDIA ARTICLE
+        */
+
+        sourceLink.innerHTML = "";
+
+        if (
+            data.content_urls &&
+            data.content_urls.desktop &&
+            data.content_urls.desktop.page
+        ) {
+
+            const link =
+                document.createElement("a");
+
+            link.href =
+                data.content_urls.desktop.page;
+
+            link.target =
+                "_blank";
+
+            link.rel =
+                "noopener";
+
+            link.textContent =
+                ui.article;
+
+            sourceLink.appendChild(link);
+
+        }
+
+
+        /*
+           PHOTOS
+        */
+
+        photos.innerHTML = "";
+
+
+        try {
+
+            const mediaUrl =
+                "https://commons.wikimedia.org/w/api.php" +
+                "?action=query" +
+                "&generator=search" +
+                "&gsrsearch=" +
+                encodeURIComponent(
+                    data.title
+                ) +
+                "&gsrnamespace=6" +
+                "&gsrlimit=10" +
+                "&prop=imageinfo" +
+                "&iiprop=url" +
+                "&iiurlwidth=500" +
+                "&format=json" +
+                "&origin=*";
+
+
+            const mediaResponse =
+                await fetch(mediaUrl);
+
+            const media =
+                await mediaResponse.json();
+
+
+            Object
+                .values(
+                    media.query?.pages || {}
+                )
+                .slice(0, 8)
+                .forEach(item => {
+
+                    const image =
+                        item.imageinfo?.[0]?.thumburl ||
+                        item.imageinfo?.[0]?.url;
+
+                    if (!image)
+                        return;
+
+
+                    const img =
+                        document.createElement("img");
+
+                    img.src =
+                        image;
+
+                    img.alt =
+                        data.title;
+
+                    img.loading =
+                        "lazy";
+
+                    photos.appendChild(img);
+
+                });
+
+        } catch {}
+
+
+        status.textContent =
+            ui.found + ": " +
+            data.title;
+
+        card.style.display =
+            "block";
+
+
+    } catch {
+
+        status.className =
+            "status error";
+
+        status.textContent =
+            ui.error;
+
+    }
+
 }
 
-async function searchPerson(){
-  const query=q.value.trim(); if(!query)return;
-  status.textContent='Проверяю имя и варианты написания…';
-  status.className='status'; card.style.display='none';
-  try{
-    const result=await findBest(query), data=result.data;
-    nameEl.textContent=data.title||'Неизвестный человек';
-    desc.textContent=data.description||'Известная личность';
-    bio.textContent=data.extract||'Описание не найдено.';
 
-    const thumb=data.thumbnail?.source||'';
-    mainimg.src=thumb; mainimg.style.display=thumb?'block':'none';
-    sourceLink.innerHTML=data.content_urls?.desktop?.page
-      ? `<a target="_blank" rel="noopener" href="${data.content_urls.desktop.page}">Открыть статью</a>`:'';
+/* =========================
+   EVENTS
+========================= */
 
-    photos.innerHTML='';
-    // Use the resolved official title, not the original misspelled/transliterated query.
-    const media=await fetch(
-      'https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+
-      encodeURIComponent(data.title||query)+
-      '&gsrnamespace=6&gsrlimit=12&prop=imageinfo&iiprop=url|mime&iiurlwidth=500&format=json&origin=*'
-    ).then(r=>r.json());
+go.addEventListener(
+    "click",
+    searchPerson
+);
 
-    Object.values(media.query?.pages||{}).slice(0,8).forEach(x=>{
-      const u=x.imageinfo?.[0]?.thumburl||x.imageinfo?.[0]?.url;
-      if(u){
-        const im=document.createElement('img');
-        im.src=u; im.alt=data.title||query; photos.appendChild(im);
-      }
-    });
+q.addEventListener(
+    "keydown",
+    event => {
 
-    status.textContent=`Найдено: ${data.title}`;
-    card.style.display='block';
-  }catch(e){
-    status.textContent='Не удалось точно определить человека. Попробуй добавить фамилию или написать имя на другом языке.';
-    status.className='status error';
-  }
-}
-go.onclick=searchPerson;
-q.addEventListener('keydown',e=>{if(e.key==='Enter')searchPerson()});
+        if (
+            event.key === "Enter"
+        ) {
+
+            searchPerson();
+
+        }
+
+    }
+);
+
 </script>
-</body></html>
+
+</body>
+  </html>
